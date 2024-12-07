@@ -1,5 +1,4 @@
-package application;
-
+package forwardchain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +12,7 @@ public class ForwardChain {
         return rules.get(0);
     }
 
-    public static String forwardChain(Rule[] ruleBase, ArrayList<String> facts, ArrayList<String> goals) {
+    public static boolean forwardChain(Rule[] ruleBase, ArrayList<String> facts, ArrayList<String> goals) {
         boolean res = true;
         List<String> proofSteps = new ArrayList<>(); // Track proof steps
 
@@ -58,16 +57,16 @@ public class ForwardChain {
             }
         }
 
-        // Construct proof steps string
-        StringBuilder proofStringBuilder = new StringBuilder();
-        proofStringBuilder.append(res ? "The fact can be proven." : "The fact cannot be proven.");
-        proofStringBuilder.append("\n\nProof steps:\n");
+        // Print proof steps
+        System.out.println("Proof steps:");
         for (String step : proofSteps) {
-            proofStringBuilder.append("- ").append(step).append("\n");
+            System.out.println("- " + step);
         }
 
-        return proofStringBuilder.toString();
+        return res;
     }
+
+
 
     public static void main(String[] args) {
         // Define the rule base
@@ -133,10 +132,14 @@ public class ForwardChain {
             ArrayList<String> facts = new ArrayList<>(Arrays.asList("D", "O", "G"));
 
             // Call the forward chaining method to prove the goal
-            String proofSteps = forwardChain(ruleBase, facts, new ArrayList<>(Arrays.asList(input)));
+            boolean result = forwardChain(ruleBase, facts, new ArrayList<>(Arrays.asList(input)));
 
-            // Display the proof steps
-            System.out.println(proofSteps);
+            // Display the result
+            if (result) {
+                System.out.println("The fact \"" + input + "\" can be proven.");
+            } else {
+                System.out.println("The fact \"" + input + "\" cannot be proven.");
+            }
         }
 
         // Close the scanner
